@@ -486,24 +486,24 @@ def createConnection():
 def arnoldConnection(shader,shGrp):
     #Connect file node based on user selection
     if materials[createConnection.i]=="BaseColor":   
-        createConnection.node.outColor >> shader.baseColor
+        cmds.connectAttr(createConnection.node+'.outColor',shader+'.baseColor')
     if materials[createConnection.i]=="Height":
-        createConnection.node.outAlpha >> shGrp+".displacementShader"
+        cmds.connectAttr(createConnection.node+'.outAlpha',shGrp+".displacementShader")
     if materials[createConnection.i]=="Metallic":
-        createConnection.node.outAlpha >> shader.metalness
+        cmds.connectAttr(createConnection.node+'.outAlpha',shader+'.metalness')
     if materials[createConnection.i]=="Roughness":
-        createConnection.node.outAlpha >> shader.specularRoughness
+        cmds.connectAttr(createConnection.node+'.outAlpha',shader+'.specularRoughness')
     if materials[createConnection.i]=="Normal":
         #Create and connect bump2d node
         bumpNode=cmds.shadingNode("bump2d",asUtility=True)
-        createConnection.node.outAlpha >> bumpNode+".bumpValue"
+        cmds.connectAttr(createConnection.node+'.outAlpha',bumpNode+'.bumpValue')
         cmds.connectAttr(bumpNode+".outNormal",shader+".normalCamera")
         #Set bump2d node to tangent space normals
         cmds.setAttr(bumpNode+".bumpInterp",1)
-    if materials[createConnection.i]=="Opacity":   
-        createConnection.node.outColor >> shader.opacity
+    if materials[createConnection.i]=="Opacity": 
+        cmds.connectAttr(createConnection.node+'.outColor',shader+'.opacity')  
     if materials[createConnection.i]=="Transmission":  
-        createConnection.node.outAlpha >> shader.transmission                      
+        cmds.connectAttr(createConnection.node+'.outAlpha',shader+'.transmission')                  
     #Set user selected color space
     cmds.setAttr(createConnection.node+".colorSpace",colorSpace[createConnection.i],type="string")
     #Change current file variable
