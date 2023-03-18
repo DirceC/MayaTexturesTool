@@ -15,7 +15,7 @@ def makeUI():
     cmds.window("Window",t="Link Textures",s=True)
     form=cmds.formLayout(nd=100)
     #Column Layout
-    columns=cmds.rowColumnLayout(nc=2)
+    columns=cmds.rowColumnLayout(nc=2,cat=([1,'both',5],[2,'both',5]),cw=[1,250])
     #Material selection
     makeUI.matSel=cmds.optionMenu(label="Material",cc="matSelected()")
     cmds.menuItem(label='aiStandardSurface')
@@ -48,7 +48,8 @@ def makeUI():
     cmds.separator(style="none",h=5)
     cmds.separator(style="none",h=5)
     #Second row
-    cmds.separator(style="none")
+    makeUI.matName=cmds.textFieldGrp( l='Material name: ', tx='aiStandardSurface', cal=([1,'left'],[2,'center']),cw=([1,80]),ad2=2,ed=True)
+    #cmds.separator(style="none")
     makeUI.secondRow=cmds.rowColumnLayout(nr=1,en=False)
     #Texture Map selection
     makeUI.mapSel2=cmds.optionMenu(label="File",cc="mapSelected2()")
@@ -441,8 +442,10 @@ def createConnection():
     createConnection.i=0
     #Get shader selected by the user
     if matSelected.shader=="aiStandardSurface":
+        mName=cmds.textFieldGrp(makeUI.matName,q=True,tx=True)
+        print(mName)
         #Create shader and shader group nodes
-        aiShader=pmc.rendering.shadingNode("aiStandardSurface",asShader=True)
+        aiShader=cmds.shadingNode("aiStandardSurface",asShader=True)
         shadingGrp=cmds.sets(n="aiStandardSurfaceSG",empty=True, renderable=True, noSurfaceShader=True)
         #Connect the nodes
         cmds.connectAttr(aiShader+".outColor",shadingGrp+".surfaceShader")
@@ -625,6 +628,7 @@ def CSSelected():
             colorSpace.pop(6)
         csSel7=cmds.optionMenu(makeUI.colorSel7,v=True,q=True)
         colorSpace.insert(6,csSel7)      
+
 
 
         
