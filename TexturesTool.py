@@ -1,5 +1,4 @@
 import maya.cmds as cmds
-import pymel.core as pmc
 
 #Global Variables
 rowsVar=1
@@ -224,7 +223,11 @@ def makeUI():
     cmds.separator(style="none",h=5)
     cmds.separator(style="none",h=5)
     #Create button
+    cmds.rowColumnLayout(nc=3,cat=([1,'both',5],[2,'both',10],[3,'both',5]),cw=[(1, 200), (2, 300),(3,100)])
+    cmds.separator(style="none",h=5)
     cmds.button(l="Create",c="createConnection()")
+    cmds.separator(style="none",h=5)
+    cmds.setParent("..")
     cmds.setParent("..")
     cmds.formLayout(form,e=True,af=[(columns,'left',10),(columns,'top',10)])
     cmds.showWindow()
@@ -628,8 +631,5 @@ def CSSelected():
         
         
         
-        
-        
-              
         
         
