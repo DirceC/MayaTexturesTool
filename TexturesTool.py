@@ -224,9 +224,9 @@ def makeUI():
     cmds.separator(style="none",h=5)
     cmds.separator(style="none",h=5)
     #Create button
-    cmds.rowColumnLayout(nc=3,cat=([1,'both',5],[2,'both',10],[3,'both',5]),cw=[(1, 200), (2, 300),(3,100)])
-    cmds.separator(style="none",h=5)
-    cmds.button(l="Create",c="createConnection()")
+    cmds.rowColumnLayout(nc=3,cat=([1,'right',15],[2,'both',5],[3,'both',5]),cw=[(1, 200), (2, 300), (3, 100)])    
+    cmds.checkBox(label='Assign material to selection')
+    cmds.button(l="Create material",c="createConnection()",bgc=(0.4,0.4,0.4))  
     cmds.separator(style="none",h=5)
     cmds.setParent("..")
     cmds.setParent("..")
@@ -240,6 +240,7 @@ makeUI()
 def addBtn():    
     #Number of active rows variable
     global rowsVar
+    print(rowsVar)
     #Enable rows and fill materials list with default value
     if rowsVar==1:
         cmds.rowColumnLayout(makeUI.secondRow,en=True,e=True)  
@@ -266,6 +267,7 @@ def addBtn():
 def removeBtn():
     #Number of active rows variable
     global rowsVar
+    print(rowsVar)
     #Disable rows and remove elements from materials, files and colorSpace lists
     if rowsVar==2:
         cmds.rowColumnLayout(makeUI.secondRow,en=False,e=True)
@@ -627,4 +629,4 @@ def CSSelected():
         if len(colorSpace)==7:
             colorSpace.pop(6)
         csSel7=cmds.optionMenu(makeUI.colorSel7,v=True,q=True)
-        colorSpace.insert(6,csSel7)   
+        colorSpace.insert(6,csSel7)      
