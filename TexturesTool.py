@@ -445,8 +445,8 @@ def createConnection():
         mName=cmds.textFieldGrp(makeUI.matName,q=True,tx=True)
         print(mName)
         #Create shader and shader group nodes
-        aiShader=cmds.shadingNode("aiStandardSurface",asShader=True)
-        shadingGrp=cmds.sets(n="aiStandardSurfaceSG",empty=True, renderable=True, noSurfaceShader=True)
+        aiShader=cmds.shadingNode("aiStandardSurface",n=mName, asShader=True)
+        shadingGrp=cmds.sets(n=mName+"SG",empty=True, renderable=True, noSurfaceShader=True)
         #Connect the nodes
         cmds.connectAttr(aiShader+".outColor",shadingGrp+".surfaceShader")
     #Other nodes options
@@ -627,13 +627,4 @@ def CSSelected():
         if len(colorSpace)==7:
             colorSpace.pop(6)
         csSel7=cmds.optionMenu(makeUI.colorSel7,v=True,q=True)
-        colorSpace.insert(6,csSel7)      
-
-
-
-        
-        
-        
-        
-        
-        
+        colorSpace.insert(6,csSel7)   
