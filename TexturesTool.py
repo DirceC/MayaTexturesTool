@@ -454,7 +454,6 @@ def createConnection():
     #Get shader selected by the user
     if matSelected.shader=="aiStandardSurface":
         mName=cmds.textFieldGrp(makeUI.matName,q=True,tx=True)
-        print(mName)
         #Create shader and shader group nodes
         aiShader=cmds.shadingNode("aiStandardSurface",n=mName, asShader=True)
         shadingGrp=cmds.sets(n=mName+"SG",empty=True, renderable=True, noSurfaceShader=True)
@@ -501,13 +500,11 @@ def createConnection():
     #Assign material to selected object
     assignSel=cmds.checkBox(makeUI.assignMat,q=True,v=True)
     if (assignSel):
-        print(shadingGrp)
         cmds.select(selObj)
         cmds.sets(e=True,fe=shadingGrp)
             
 #Function to connect shading nodes to Arnold StandardSurface material
 def arnoldConnection(shader,shGrp):
-    print(createConnection.i)
     #Connect file node based on user selection
     if materials[createConnection.i]=="BaseColor":   
         cmds.connectAttr(createConnection.node+'.outColor',shader+'.baseColor')
