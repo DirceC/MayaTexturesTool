@@ -4,7 +4,7 @@ import maya.cmds as cmds
 rowsVar=1
 materials=["BaseColor"]
 files=[]
-colorSpace=[]
+colorSpace=["sRGB"]
 
 #Window function
 def makeUI():
@@ -225,7 +225,7 @@ def makeUI():
     cmds.separator(style="none",h=5)
     #Create button
     cmds.rowColumnLayout(nc=3,cat=([1,'right',15],[2,'both',5],[3,'both',5]),cw=[(1, 200), (2, 300), (3, 100)])    
-    cmds.checkBox(label='Assign material to selection')
+    makeUI.assignMat=cmds.checkBox(label='Assign material to selection')
     cmds.button(l="Create material",c="createConnection()",bgc=(0.4,0.4,0.4))  
     cmds.separator(style="none",h=5)
     cmds.setParent("..")
@@ -241,25 +241,31 @@ def addBtn():
     #Number of active rows variable
     global rowsVar
     print(rowsVar)
-    #Enable rows and fill materials list with default value
+    #Enable rows and fill materials and colorSpace list with default value
     if rowsVar==1:
         cmds.rowColumnLayout(makeUI.secondRow,en=True,e=True)  
-        materials.insert(1,"BaseColor")     
+        materials.insert(1,"BaseColor")    
+        colorSpace.insert(1,"sRGB") 
     if rowsVar==2:
         cmds.rowColumnLayout(makeUI.thirdRow,en=True,e=True)  
-        materials.insert(2,"BaseColor")               
+        materials.insert(2,"BaseColor")     
+        colorSpace.insert(2,"sRGB")           
     if rowsVar==3:
         cmds.rowColumnLayout(makeUI.fourthRow,en=True,e=True)
         materials.insert(3,"BaseColor") 
+        colorSpace.insert(3,"sRGB") 
     if rowsVar==4:
         cmds.rowColumnLayout(makeUI.fifthRow,en=True,e=True)  
         materials.insert(4,"BaseColor") 
+        colorSpace.insert(4,"sRGB") 
     if rowsVar==5:
         cmds.rowColumnLayout(makeUI.sixthRow,en=True,e=True)
-        materials.insert(5,"BaseColor")     
+        materials.insert(5,"BaseColor") 
+        colorSpace.insert(5,"sRGB")     
     if rowsVar==6:
         cmds.rowColumnLayout(makeUI.seventhRow,en=True,e=True)
         materials.insert(6,"BaseColor") 
+        colorSpace.insert(6,"sRGB") 
     if rowsVar<7:
         rowsVar+=1
         
@@ -442,6 +448,9 @@ def textureFile7():
 def createConnection():
     #Current file variable
     createConnection.i=0
+    #Selected object
+    selObj=cmds.ls(sl=True)
+    print(selObj)
     #Get shader selected by the user
     if matSelected.shader=="aiStandardSurface":
         mName=cmds.textFieldGrp(makeUI.matName,q=True,tx=True)
@@ -489,9 +498,16 @@ def createConnection():
         checkAttr()        
         #Call connection nodes function
         arnoldConnection(aiShader,shadingGrp)
-        
+    #Assign material to selected object
+    assignSel=cmds.checkBox(makeUI.assignMat,q=True,v=True)
+    if (assignSel):
+        print(shadingGrp)
+        cmds.select(selObj)
+        cmds.sets(e=True,fe=shadingGrp)
+            
 #Function to connect shading nodes to Arnold StandardSurface material
 def arnoldConnection(shader,shGrp):
+    print(createConnection.i)
     #Connect file node based on user selection
     if materials[createConnection.i]=="BaseColor":   
         cmds.connectAttr(createConnection.node+'.outColor',shader+'.baseColor')
@@ -630,3 +646,4 @@ def CSSelected():
             colorSpace.pop(6)
         csSel7=cmds.optionMenu(makeUI.colorSel7,v=True,q=True)
         colorSpace.insert(6,csSel7)      
+         
