@@ -491,7 +491,7 @@ def createConnection():
         cmds.setAttr(fileNode+'.fileTextureName', files[i], type='string')
         #Select the file node and save in a variable
         cmds.select(fileNode)
-        fileNodes=pmc.selected()
+        fileNodes=cmds.ls(sl=True)
         createConnection.node=fileNodes[0]
         #Call check attributes function
         checkAttr()        
